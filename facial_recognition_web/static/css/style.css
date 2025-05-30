@@ -1,0 +1,72 @@
+/* Flash message fade in/out */
+.messages li {
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 4px;
+}
+.messages li.info {
+  background-color: #d9edf7;
+  color: #31708f;
+}
+.messages li.error {
+  background-color: #f2dede;
+  color: #a94442;
+}
+.messages li.warning {
+  background-color: #fcf8e3;
+  color: #8a6d3b;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Button hover */
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+button:hover {
+  background-color: #45a049;
+}
+
+/* Smooth fade-in for video */
+.video-container img {
+  opacity: 0;
+  animation: fadeIn 2s forwards;
+  border: 2px solid #4CAF50;
+  border-radius: 10px;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Progress Bar container */
+.progress-container {
+  width: 100%;
+  background-color: #ddd;
+  border-radius: 10px;
+  margin-top: 10px;
+  height: 20px;
+  display: none; /* Hidden initially */
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background-color: #4CAF50;
+  border-radius: 10px;
+  text-align: center;
+  color: white;
+  line-height: 20px; /* vertically center text */
+  transition: width 0.4s ease;
+}

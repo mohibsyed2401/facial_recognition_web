@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Facial Recognition</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f7f9fc;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 700px;
+      padding: 2rem;
+      margin-top: 3rem;
+      background: #ffffff;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    form {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #357ab7;
+    }
+
+    .video-container {
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    .video-container img {
+      border-radius: 10px;
+      max-width: 100%;
+      height: auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .progress-container {
+      width: 100%;
+      height: 20px;
+      background: #eee;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 10px 0;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+      color: #fff;
+      text-align: center;
+      line-height: 20px;
+      font-size: 12px;
+    }
+
+    .messages {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 1rem;
+    }
+
+    .messages li {
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 5px;
+    }
+
+    .error { background-color: #f8d7da; color: #721c24; }
+    .info { background-color: #d1ecf1; color: #0c5460; }
+    .warning { background-color: #fff3cd; color: #856404; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Facial Recognition & Emotion Detection</h1>
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="messages">
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <!-- Registration form -->
+    <form method="POST" action="/">
+      <input
+        type="text"
+        name="name"
+        placeholder="Enter your name"
+        autocomplete="off"
+        required
+      />
+      <button type="submit">Register Face</button>
+    </form>
+
+    <!-- Progress bar -->
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar">0%</div>
+    </div>
+
+    <!-- Video Stream -->
+    <div class="video-container">
+      <img src="{{ url_for('video') }}" alt="Live Facial Recognition Stream" />
+    </div>
+
+    <p style="margin-top: 1rem; text-align: center;">
+      <em>After clicking <strong>Register</strong>, look at the camera and press <strong>'c'</strong> to capture your face images.</em>
+    </p>
+  </div>
+
+  <script>
+    const flashMessage = "{{ get_flashed_messages()|join(',') }}";
+    const bar = document.getElementById("progress-bar");
+
+    function simulateProgress() {
+      let progress = 0;
+      const interval = setInterval(() => {
+        if (progress >= 100) {
+          clearInterval(interval);
+          bar.innerText = "Done!";
+        } else {
+          progress += 5;
+          bar.style.width = progress + "%";
+          bar.innerText = progress + "%";
+        }
+      }, 200);
+    }
+
+    if (flashMessage.includes("Started face registration")) {
+      simulateProgress();
+    }
+  </script>
+</body>
+</html>
